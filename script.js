@@ -1,3 +1,4 @@
+// Set up canvas
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -9,11 +10,20 @@ window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;  
 })
 
+
+// Create mouse object
 const mouse = {
     x: undefined,
     y: undefined,
 };
 
+canvas.addEventListener('mousemove', (event) => {
+    mouse.x = event.x;
+    mouse.y = event.y;
+});
+
+
+// Particle class
 class Particle{
     constructor(x, y){
         this._baseX = x;
@@ -65,16 +75,12 @@ class Particle{
     }
 }
 
-canvas.addEventListener('mousemove', (event) => {
-    mouse.x = event.x;
-    mouse.y = event.y;
-});
 
-
+// Create list of particles
 const particles = [];
 for(let i = 0; i < 20; i++){
     for(let j = 0; j < 20; j++){
-        particles.push(new Particle(250 + i*10, 250 + j*10));
+        particles.push(new Particle(screen.width / 2 - 120 + i*10, 250 + j*10));
     }
 }
 
