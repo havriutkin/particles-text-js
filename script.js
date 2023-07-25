@@ -27,6 +27,7 @@ class Particle{
     }
 
     update(){
+        // Get vectors and ditances
         const vectorToMouse = [mouse.x - this._currX , mouse.y - this._currY];
         const vectorToBase = [this._baseX - this._currX, this._baseY - this._currY];
         const vectorMouseToBase = [mouse.x - this._baseX, mouse.y - this._baseY];
@@ -35,6 +36,7 @@ class Particle{
         const distanceToBase = Math.sqrt(vectorToBase[0]**2 + vectorToBase[1]**2);
         const distanceMouseToBase = Math.sqrt(vectorMouseToBase[0]**2 + vectorMouseToBase[1]**2);
 
+        // Change velocity
         if (distanceToMouse < 30 && distanceToBase < 60){
             this._dx = -vectorToMouse[0] / distanceToMouse;
             this._dy = -vectorToMouse[1] / distanceToMouse;
@@ -46,8 +48,12 @@ class Particle{
             this._dy = 0;
         }
 
+        // Move
         this._currX += this._dx;
         this._currY += this._dy;
+
+        // Change color
+        this._color = `rgb(${255 - Math.floor(distanceToBase) * 3}, ${255 - Math.floor(distanceToBase) * 3}, ${255 - Math.floor(distanceToBase) * 3})`;
     }
 
     draw(){
@@ -66,8 +72,8 @@ canvas.addEventListener('mousemove', (event) => {
 
 
 const particles = [];
-for(let i = 0; i < 10; i++){
-    for(let j = 0; j < 10; j++){
+for(let i = 0; i < 20; i++){
+    for(let j = 0; j < 20; j++){
         particles.push(new Particle(250 + i*10, 250 + j*10));
     }
 }
@@ -82,10 +88,3 @@ function mainLoop(){
 }
 
 mainLoop();
-
-document.addEventListener('click', () => {
-    const distanse = Math.sqrt((mouse.x - myParticle._currX)**2 + (mouse.y - myParticle._currY)**2);
-    console.log(mouse.x, mouse.y);
-    console.log(myParticle._currX, myParticle._currY);
-    console.log(distanse);
-})
