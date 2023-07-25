@@ -35,25 +35,13 @@ class Particle{
         const distanceToBase = Math.sqrt(vectorToBase[0]**2 + vectorToBase[1]**2);
         const distanceMouseToBase = Math.sqrt(vectorMouseToBase[0]**2 + vectorMouseToBase[1]**2);
 
-        if (distanceToMouse < 30){
-            if (distanceToBase < 60){
-                this._dx = -vectorToMouse[0] / distanceToMouse;
-                this._dy = -vectorToMouse[1] / distanceToMouse;
-            } else{
-                this._dx = 0;
-                this._dy = 0;
-            }
+        if (distanceToMouse < 30 && distanceToBase < 60){
+            this._dx = -vectorToMouse[0] / distanceToMouse;
+            this._dy = -vectorToMouse[1] / distanceToMouse;
+        } else if (distanceMouseToBase >= 30 && distanceToBase > 0.5){
+            this._dx = vectorToBase[0] / distanceToBase;
+            this._dy = vectorToBase[1] / distanceToBase;
         } else{
-            if (distanceMouseToBase >= 30){
-                this._dx = vectorToBase[0] / distanceToBase;
-                this._dy = vectorToBase[1] / distanceToBase;
-            } else{
-                this._dx = 0;
-                this._dy = 0;
-            }
-        } 
-
-        if (distanceToBase < 0.01 && distanceToMouse >= 30){
             this._dx = 0;
             this._dy = 0;
         }
@@ -77,13 +65,18 @@ canvas.addEventListener('mousemove', (event) => {
 });
 
 
-const myParticle = new Particle(200, 200);
+const particles = [];
+for(let i = 0; i < 10; i++){
+    for(let j = 0; j < 10; j++){
+        particles.push(new Particle(250 + i*10, 250 + j*10));
+    }
+}
 
 function mainLoop(){
-    myParticle.update();
+    particles.forEach(particle => particle.update());
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    myParticle.draw();
+    particles.forEach(particle => particle.draw());
 
     requestAnimationFrame(mainLoop);
 }
