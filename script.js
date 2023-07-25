@@ -80,7 +80,7 @@ class Particle{
 const particles = [];
 for(let i = 0; i < 20; i++){
     for(let j = 0; j < 20; j++){
-        particles.push(new Particle(screen.width / 2 - 120 + i*10, 250 + j*10));
+        particles.push(new Particle(canvas.width / 2 - 150 + i*10, canvas.height / 2 - 150 + j*10));
     }
 }
 
